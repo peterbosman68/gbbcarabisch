@@ -49,7 +49,7 @@ if (dashboardRoot) {
   const financeTrend = document.querySelector('[data-finance-trend]');
   const signalSummary = document.querySelector('[data-signal-summary]');
 
-  const months = ['ينا', 'فبر', 'مار', 'أبر', 'ماي'];
+  const months = ['Jan', 'Feb', 'Mrt', 'Apr', 'Mei'];
 
   const hotels = [
     {
@@ -209,14 +209,14 @@ if (dashboardRoot) {
   ];
 
   const formatCurrency = (value) =>
-    new Intl.NumberFormat('ar-MA', {
+    new Intl.NumberFormat('nl-NL', {
       style: 'currency',
       currency: 'EUR',
       maximumFractionDigits: 0
     }).format(value);
 
   const formatDecimal = (value) =>
-    new Intl.NumberFormat('ar-MA', {
+    new Intl.NumberFormat('nl-NL', {
       minimumFractionDigits: 1,
       maximumFractionDigits: 1
     }).format(value);
@@ -244,14 +244,14 @@ if (dashboardRoot) {
     score += hotel.managerMood >= 8 ? 2 : hotel.managerMood >= 7 ? 1 : 0;
 
     if (score >= 8) {
-      return { key: 'green', label: 'أخضر' };
+      return { key: 'green', label: 'Groen' };
     }
 
     if (score >= 6) {
-      return { key: 'amber', label: 'برتقالي' };
+      return { key: 'amber', label: 'Oranje' };
     }
 
-    return { key: 'red', label: 'أحمر' };
+    return { key: 'red', label: 'Rood' };
   };
 
   const createSparkline = (values, signal) => {
@@ -272,7 +272,7 @@ if (dashboardRoot) {
     const tone = signal.key === 'green' ? 'good' : signal.key === 'amber' ? 'warn' : 'bad';
 
     return `
-      <svg class="sparkline ${tone}" viewBox="0 0 ${width} ${height}" role="img" aria-label="اتجاه الإشغال خلال الأشهر الأخيرة">
+      <svg class="sparkline ${tone}" viewBox="0 0 ${width} ${height}" role="img" aria-label="Trend bezetting laatste maanden">
         <polyline class="sparkline-path" points="${points}"></polyline>
       </svg>
     `;
@@ -329,7 +329,7 @@ if (dashboardRoot) {
     const path = points.map((point) => `${point.x.toFixed(2)},${point.y.toFixed(2)}`).join(' ');
 
     financeTrend.innerHTML = `
-      <svg class="line-chart-svg" viewBox="0 0 ${width} ${height}" role="img" aria-label="اتجاه النتائج خلال آخر 5 أشهر">
+      <svg class="line-chart-svg" viewBox="0 0 ${width} ${height}" role="img" aria-label="Resultaattrend laatste 5 maanden">
         <line class="line-chart-grid" x1="${paddingX}" y1="${height - paddingY}" x2="${width - paddingX}" y2="${height - paddingY}"></line>
         <line class="line-chart-grid" x1="${paddingX}" y1="${paddingY}" x2="${paddingX}" y2="${height - paddingY}"></line>
         <polyline class="line-chart-path" points="${path}"></polyline>
@@ -359,15 +359,15 @@ if (dashboardRoot) {
 
     signalSummary.innerHTML = `
       <div class="signal-item">
-        <strong>أخضر (مستقر)</strong>
+        <strong>Groen (stabiel)</strong>
         <span class="signal-count">${summary.green}</span>
       </div>
       <div class="signal-item">
-        <strong>برتقالي (انتباه)</strong>
+        <strong>Oranje (aandacht)</strong>
         <span class="signal-count">${summary.amber}</span>
       </div>
       <div class="signal-item">
-        <strong>أحمر (تدخل)</strong>
+        <strong>Rood (ingrijpen)</strong>
         <span class="signal-count">${summary.red}</span>
       </div>
     `;
@@ -382,24 +382,24 @@ if (dashboardRoot) {
 
     dashboardMetrics.innerHTML = `
       <article class="kpi-card reveal visible">
-        <span>متوسط الإشغال</span>
+        <span>Gem. bezettingsgraad</span>
         <strong>${Math.round(avgOccupancy)}%</strong>
-        <p>${items.length} فنادق في التصفية</p>
+        <p>${items.length} hotels in selectie</p>
       </article>
       <article class="kpi-card reveal visible">
-        <span>الإيراد حسب التصفية</span>
+        <span>Omzet per selectie</span>
         <strong>${formatCurrency(totalRevenue)}</strong>
-        <p>هامش ${formatDecimal(margin)}%</p>
+        <p>Marge ${formatDecimal(margin)}%</p>
       </article>
       <article class="kpi-card reveal visible">
-        <span>التكاليف التشغيلية</span>
+        <span>Operationele kosten</span>
         <strong>${formatCurrency(totalCosts)}</strong>
-        <p>مباشرة من مصادر المالية</p>
+        <p>Direct uit finance-bronnen</p>
       </article>
       <article class="kpi-card reveal visible">
-        <span>شعور المدير</span>
+        <span>Manager sentiment</span>
         <strong>${formatDecimal(avgMood)}/10</strong>
-        <p>إدخال يدوي لكل مدير فندق</p>
+        <p>Handmatige input per hotelmanager</p>
       </article>
     `;
   };
@@ -437,7 +437,7 @@ if (dashboardRoot) {
       return;
     }
 
-    dashboardTimestamp.textContent = new Intl.DateTimeFormat('ar-MA', {
+    dashboardTimestamp.textContent = new Intl.DateTimeFormat('nl-NL', {
       dateStyle: 'medium',
       timeStyle: 'short'
     }).format(new Date());
